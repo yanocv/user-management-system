@@ -1,0 +1,11 @@
+export const AUTH_ENDPOINT = "/api/v1/auth/";
+export const REFRESH_TOKEN_ENDPOINT = "/api/v1/auth/refresh";
+export const DEPARTMENT_ENDPOINT = "/api/v1/analysis/departments";
+export const EMPLOYEE_LIST_ENDPOINT = "/api/v1/employee/";
+export const EMPLOYEES_ENDPOINT = "/api/v1/analysis/employees";
+export const COMPANY_ENDPOINT = "/api/v1/company";
+export const REGISTER_ENDPOINT = "/api/v1/user";
+export const TOPICS_ENDPOINT = "/api/v1/topics";
+export const DEPARTMENTS_LIST_ENDPOINT = "/api/v1/department";
+export const HOUSE_STATUS_LIST_ENDPOINT = "/api/v1/house-status";
+export const COMPARISON_ENDPOINT = "/api/v1/analysis/comparison";

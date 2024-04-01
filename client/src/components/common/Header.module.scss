@@ -1,0 +1,22 @@
+header {
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  .headerSubContainer {
+    height: 72px;
+
+    a:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    .dropdownMenu {
+      right: 0;
+      left: auto !important;
+      a:hover {
+        background-color: #e9ecef;
+        color: inherit !important;
+      }
+    }
+  }
+}

@@ -28,10 +28,11 @@ Refer to the scripts section in package.json.
 // Initializes the database and starts the server with initial data registration
 // It will take a long time to finish
 npm run start:reset
-
+```
 
 Download the precompiled binaries from the SQLite website: https://www.sqlite.org/download.html
-Choose the appropriate version based on your Windows architecture (32-bit or 64-bit) - Example: sqlite-tools-win-x64-3450200
+Choose the appropriate version based on your Windows architecture (32-bit or 64-bit)
+Example: sqlite-tools-win-x64-3450200
 
 Extract the downloaded zip file.
 Copy the extracted folder to the `C:\` directory in your system.
@@ -52,7 +53,5 @@ Refer to the scripts section in package.json.
 
 // Connects to the management.sqlite database stored in the project and starts the server
 npm start
-
-```
 
 ```

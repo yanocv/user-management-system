@@ -54,7 +54,7 @@ Then, retrieve the application ID: `SELECT application_id FROM app ORDER BY modi
 Copy the ID, and paste it in: client/env/dev.js/applicationId: xxxx
 
 ### Start the server/database
-
+```
 // Connects to the management.sqlite database stored in the project and starts the server
 npm start
 

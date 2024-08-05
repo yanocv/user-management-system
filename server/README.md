@@ -25,33 +25,44 @@ npm install ts-node nodemon --save-dev
 Refer to the scripts section in package.json.
 
 ```
-// Initializes the database and starts the server with initial data registration
-// It will take a long time to finish
-npm run start:reset
+// DBが初期化されて起動し、初期データが登録される
+yarn start:reset
+// 処理が終わったら一旦 ctrl + c で停止する
+// 次からは↓で起動する
+yarn start
 ```
 
-Download the precompiled binaries from the SQLite website: https://www.sqlite.org/download.html
-Choose the appropriate version based on your Windows architecture (32-bit or 64-bit)
-Example: sqlite-tools-win-x64-3450200
+### ２回目以降の起動
 
-Extract the downloaded zip file.
-Copy the extracted folder to the `C:\` directory in your system.
-Open terminal, and set the path: `$env:PATH += ";C:\sqlite-tools-xxx-xxx-xxxxx"`
-`sqlite-tools-win-x64-3450200` is the downloaded folder name that you extracted and saved in the `C` directory.
-Example: `$env:PATH += ";C:\sqlite-tools-win-x64-3450200"`
-
-Open terminal, go to the server directory, and connect to SQLite with the following command:
-`sqlite3 src\database\management.sqlite`
-Then, retrieve the application ID: `SELECT application_id FROM app ORDER BY modified DESC LIMIT 1;`
-Copy the ID, and paste it in: client/env/dev.js/applicationId: xxxx
-
-### Subsequent Startups
-
-Refer to the scripts section in package.json.
+package.json の scripts 内を参照
 
 ```
-
-// Connects to the management.sqlite database stored in the project and starts the server
-npm start
-
+// プロジェクト内に保存された management.sqlite データベースに接続して起動
+yarn start
 ```
+
+## プロジェクト仕様
+
+### 基本
+
+- Node.js
+- TypeScript
+- Express
+
+### DB 系
+
+- SQLite
+- sequelize
+
+### 時間系
+
+- moment
+
+### ローカルサーバー
+
+- nodemon
+- ts-node
+
+### HTTP 通信
+
+- axios

@@ -10,9 +10,9 @@ import {
   Model,
   Optional,
   Sequelize,
-} from 'sequelize';
-import { EmployeeStatus } from '@database/models/employeeStatus.model';
-import { EmployeeStatusDummy } from '@database/models/employeeStatusDummy.model';
+} from "sequelize";
+import { EmployeeStatus } from "@database/models/employeeStatus.model";
+import { EmployeeStatusDummy } from "@database/models/employeeStatusDummy.model";
 
 interface HouseStatusAttributes {
   id: number;
@@ -23,25 +23,18 @@ interface HouseStatusAttributes {
 }
 
 interface HouseStatusCreationAttributes
-  extends Optional<HouseStatusAttributes, 'is_deleted'> {}
+  extends Optional<HouseStatusAttributes, "is_deleted"> {}
 
 export class HouseStatus
   extends Model<HouseStatusAttributes, HouseStatusCreationAttributes>
   implements HouseStatusAttributes
 {
-  /** 社内ステータスを一意に識別するID */
   declare id: number;
-  /** 社内ステータス名称 */
   declare label: string;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成ユーザーID */
   declare created_id: string;
-  /** 削除ユーザーID */
   declare modified_id: string;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 
   declare getEmployee_status: HasManyGetAssociationsMixin<EmployeeStatus>;
@@ -115,11 +108,11 @@ export const HouseStatusInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'house_status',
-      charset: 'utf8',
+      tableName: "house_status",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

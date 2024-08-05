@@ -10,9 +10,9 @@ import {
   Model,
   Optional,
   Sequelize,
-} from 'sequelize';
-import { EmployeeStatus } from '@database/models/employeeStatus.model';
-import { EmployeeStatusDummy } from '@database/models/employeeStatusDummy.model';
+} from "sequelize";
+import { EmployeeStatus } from "@database/models/employeeStatus.model";
+import { EmployeeStatusDummy } from "@database/models/employeeStatusDummy.model";
 
 interface DepartmentAttributes {
   id: number;
@@ -23,25 +23,18 @@ interface DepartmentAttributes {
 }
 
 interface DepartmentCreationAttributes
-  extends Optional<DepartmentAttributes, 'is_deleted'> {}
+  extends Optional<DepartmentAttributes, "is_deleted"> {}
 
 export class Department
   extends Model<DepartmentAttributes, DepartmentCreationAttributes>
   implements DepartmentAttributes
 {
-  /** 社員ID */
   declare id: number;
-  /** 姓 */
   declare name: string;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成ユーザーID */
   declare created_id: string;
-  /** 更新ユーザーID */
   declare modified_id: string;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 
   declare getEmployee_status: HasManyGetAssociationsMixin<EmployeeStatus>;
@@ -115,11 +108,11 @@ export const DepartmentInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'department',
-      charset: 'utf8',
+      tableName: "department",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

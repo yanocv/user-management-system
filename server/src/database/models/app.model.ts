@@ -10,10 +10,10 @@ import {
   Model,
   Optional,
   Sequelize,
-} from 'sequelize';
-import type { User } from '@database/models/user.model';
-import { Employee } from '@database/models/employee.model';
-import { EmployeeDummy } from '@database/models/employeeDummy.model';
+} from "sequelize";
+import type { User } from "@database/models/user.model";
+import { Employee } from "@database/models/employee.model";
+import { EmployeeDummy } from "@database/models/employeeDummy.model";
 
 interface AppAttributes {
   application_id: string;
@@ -21,22 +21,15 @@ interface AppAttributes {
 }
 
 export interface AppCreationAttributes
-  extends Optional<AppAttributes, 'is_deleted'> {}
+  extends Optional<AppAttributes, "is_deleted"> {}
 
 export class App
   extends Model<AppAttributes, AppCreationAttributes>
   implements AppAttributes
 {
-  /**
-   * アプリケーション固有のID
-   * アプリケーションIDとuserテーブルの username 使って複合種キーとする
-   */
   declare application_id: string;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 
   declare getUser: HasManyGetAssociationsMixin<User>;
@@ -86,11 +79,11 @@ export const AppInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'app',
-      charset: 'utf8',
+      tableName: "app",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

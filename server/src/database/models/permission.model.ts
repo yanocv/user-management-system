@@ -10,8 +10,8 @@ import {
   Model,
   Optional,
   Sequelize,
-} from 'sequelize';
-import { User } from '@database/models/user.model';
+} from "sequelize";
+import { User } from "@database/models/user.model";
 
 interface PermissionAttributes {
   id: number;
@@ -22,25 +22,18 @@ interface PermissionAttributes {
 }
 
 interface PermissionCreationAttributes
-  extends Optional<PermissionAttributes, 'is_deleted'> {}
+  extends Optional<PermissionAttributes, "is_deleted"> {}
 
 export class Permission
   extends Model<PermissionAttributes, PermissionCreationAttributes>
   implements PermissionAttributes
 {
-  /** 権限を識別する一意のID */
   declare id: number;
-  /** 権限名称 */
   declare label: string;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成ユーザーID */
   declare created_id: string;
-  /** 更新ユーザーID */
   declare modified_id: string;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 
   declare getUser: HasManyGetAssociationsMixin<User>;
@@ -86,11 +79,11 @@ export const PermissionInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'permission',
-      charset: 'utf8',
+      tableName: "permission",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

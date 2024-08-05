@@ -7,12 +7,12 @@ import {
   BelongsToGetAssociationMixin,
   BelongsToSetAssociationMixin,
   BelongsToCreateAssociationMixin,
-} from 'sequelize';
-import { App } from './app.model';
-import { Company } from '@database/models/company.model';
-import { Department } from '@database/models/department.model';
-import { EmployeeDummy } from '@database/models/employeeDummy.model';
-import { HouseStatus } from '@database/models/houseStatus.model';
+} from "sequelize";
+import { App } from "./app.model";
+import { Company } from "@database/models/company.model";
+import { Department } from "@database/models/department.model";
+import { EmployeeDummy } from "@database/models/employeeDummy.model";
+import { HouseStatus } from "@database/models/houseStatus.model";
 
 interface EmployeeStatusDummyAttributes {
   composite_id: string;
@@ -28,7 +28,7 @@ interface EmployeeStatusDummyAttributes {
 }
 
 interface EmployeeStatusDummyCreationAttributes
-  extends Optional<EmployeeStatusDummyAttributes, 'is_deleted'> {}
+  extends Optional<EmployeeStatusDummyAttributes, "is_deleted"> {}
 
 export class EmployeeStatusDummy
   extends Model<
@@ -37,32 +37,17 @@ export class EmployeeStatusDummy
   >
   implements EmployeeStatusDummyAttributes
 {
-  /** PK */
   declare composite_id: string;
-  /** 社員ID */
   declare employee_id: number;
-  /**
-   * アプリケーション固有のID
-   * アプリケーションIDとuserテーブルの username 使って複合種キーとする
-   */
   declare application_id: string;
-  /** 担当管理営業 */
   declare business_manager: string;
-  /** 所属事業部 */
   declare department_id: number;
-  /** 稼働状況ステータス */
   declare commissioning_status_id: number;
-  /** 社内ステータス */
   declare house_status_id: number;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成ユーザーID */
   declare created_id: string;
-  /** 更新ユーザーID */
   declare modified_id: string;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 
   declare getApp: BelongsToGetAssociationMixin<App>;
@@ -115,13 +100,13 @@ export const EmployeeStatusDummyInit = (sequelize: Sequelize) => {
       employee_id: {
         type: DataTypes.INTEGER,
         // primaryKey: true,
-        unique: 'CompositePrimaryKey',
+        unique: "CompositePrimaryKey",
         allowNull: false,
       },
       application_id: {
         type: DataTypes.STRING,
         // primaryKey: true,
-        unique: 'CompositePrimaryKey',
+        unique: "CompositePrimaryKey",
         allowNull: false,
       },
       business_manager: {
@@ -156,11 +141,11 @@ export const EmployeeStatusDummyInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'employee_status_dummy',
-      charset: 'utf8',
+      tableName: "employee_status_dummy",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

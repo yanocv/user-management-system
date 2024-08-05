@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
+import { Sequelize, DataTypes, Model, Optional } from "sequelize";
 
 interface TopicAttributes {
   id: number;
@@ -12,31 +12,22 @@ interface TopicAttributes {
 
 export interface TopicCreationAttributes
   extends Optional<
-    Omit<TopicAttributes, 'id'>,
-    'is_deleted' | 'published_date'
+    Omit<TopicAttributes, "id">,
+    "is_deleted" | "published_date"
   > {}
 
 export class Topic
   extends Model<TopicAttributes, TopicCreationAttributes>
   implements TopicAttributes
 {
-  /** トピックを識別する一意のID */
   declare id: number;
-  /** トピックタイトル */
   declare title: string;
-  /** トピック内容 */
   declare contents: string;
-  /** 公開日 */
   declare published_date: string;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成ユーザーID */
   declare created_id: string;
-  /** 更新ユーザーID */
   declare modified_id: string;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 }
 
@@ -77,11 +68,11 @@ export const TopicInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'topic',
-      charset: 'utf8',
+      tableName: "topic",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

@@ -1,24 +1,14 @@
-import { Request, Response } from 'express';
-import { Op } from 'sequelize';
-import moment from 'moment';
-import { Topic } from '@database/models/topic.model';
+import { Request, Response } from "express";
+import { Op } from "sequelize";
+import moment from "moment";
+import { Topic } from "@database/models/topic.model";
 
-/**
- * トピック情報の操作に使用するコントローラ.
- */
 const TopicController = {
-  /**
-   * 全トピック情報を取得する関数.
-   *
-   * @param req express.Request
-   * @param res express.Response
-   */
   findAll: async (req: Request, res: Response) => {
-    // TODO: クエリパラメータによって取得できる情報を操作できるようにしたほうが良い。（主に管理者用)
     try {
       const topics = await Topic.findAll({
         attributes: {
-          exclude: ['id', 'created_id', 'modified_id'],
+          exclude: ["id", "created_id", "modified_id"],
         },
         where: {
           is_deleted: false,
@@ -30,12 +20,12 @@ const TopicController = {
             },
             {
               published_date: {
-                [Op.lte]: moment().format('YYYY-MM-DD'),
+                [Op.lte]: moment().format("YYYY-MM-DD"),
               },
             },
           ],
         },
-        order: [['published_date', 'DESC']],
+        order: [["published_date", "DESC"]],
         raw: true,
       });
 

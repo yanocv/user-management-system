@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
-import { Op, WhereOptions } from 'sequelize';
-import moment from 'moment';
-import { DB } from '@database/index';
-import { App } from '@database/models/app.model';
-import { Company } from '@database/models/company.model';
-import { Department } from '@database/models/department.model';
-import { Employee, EmployeeAttributes } from '@database/models/employee.model';
-import { EmployeeStatus } from '@database/models/employeeStatus.model';
-import { HouseStatus } from '@database/models/houseStatus.model';
-import { COMMISSIONING_STATUS, SEX } from '@constants/Database';
+import { Request, Response } from "express";
+import { Op, WhereOptions } from "sequelize";
+import moment from "moment";
+import { DB } from "@database/index";
+import { App } from "@database/models/app.model";
+import { Company } from "@database/models/company.model";
+import { Department } from "@database/models/department.model";
+import { Employee, EmployeeAttributes } from "@database/models/employee.model";
+import { EmployeeStatus } from "@database/models/employeeStatus.model";
+import { HouseStatus } from "@database/models/houseStatus.model";
+import { COMMISSIONING_STATUS, SEX } from "@constants/Database";
 import {
   calcAge,
   calcEnrollment,
@@ -16,18 +16,18 @@ import {
   toInt,
   validateDate,
   validateTelephone,
-} from '@utils/InsertHelper';
+} from "@utils/InsertHelper";
 
 const EmployeeController = {
   findAll: async (
     {
       query: {
-        sortBy = 'asc',
-        offset = '1',
-        limit = '20',
-        searchText = '',
-        excludeDelete = '1',
-        excludeRetire = '0',
+        sortBy = "asc",
+        offset = "1",
+        limit = "20",
+        searchText = "",
+        excludeDelete = "1",
+        excludeRetire = "0",
       },
       ...req
     }: Request,
@@ -41,12 +41,12 @@ const EmployeeController = {
       };
     }
 
-    if (excludeDelete === '1') {
+    if (excludeDelete === "1") {
       criteria.is_deleted = {
         [Op.eq]: false,
       };
     }
-    if (excludeRetire === '1') {
+    if (excludeRetire === "1") {
       criteria.retire_date = {
         [Op.eq]: null,
       };
@@ -57,7 +57,7 @@ const EmployeeController = {
     if (!applicationId) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined applicationId.',
+        description: "Bad request. Undefined applicationId.",
       });
     }
 
@@ -67,46 +67,46 @@ const EmployeeController = {
       const employeeList = await Employee.findAndCountAll({
         where: criteria,
         attributes: [
-          'employee_id',
-          'first_name',
-          'last_name',
-          'first_name_hiragana',
-          'last_name_hiragana',
-          'birthday',
-          'sex',
-          'age',
-          'mail',
-          'telephone',
-          'enter_date',
-          'retire_date',
-          'enrollment_year',
-          'enrollment_month',
-          'enrollment_day',
+          "employee_id",
+          "first_name",
+          "last_name",
+          "first_name_hiragana",
+          "last_name_hiragana",
+          "birthday",
+          "sex",
+          "age",
+          "mail",
+          "telephone",
+          "enter_date",
+          "retire_date",
+          "enrollment_year",
+          "enrollment_month",
+          "enrollment_day",
         ],
         include: [
           {
             model: Company,
             required: true,
-            as: 'company',
-            attributes: ['id', 'name', 'abbreviation'],
+            as: "company",
+            attributes: ["id", "name", "abbreviation"],
           },
           {
             model: EmployeeStatus,
             required: true,
-            as: 'employee_status',
-            attributes: ['business_manager', 'commissioning_status_id'],
+            as: "employee_status",
+            attributes: ["business_manager", "commissioning_status_id"],
             include: [
               {
                 model: Department,
                 required: true,
-                as: 'department',
-                attributes: ['id', 'name'],
+                as: "department",
+                attributes: ["id", "name"],
               },
               {
                 model: HouseStatus,
                 required: true,
-                as: 'house_status',
-                attributes: ['id', 'label'],
+                as: "house_status",
+                attributes: ["id", "label"],
               },
             ],
           },
@@ -117,7 +117,7 @@ const EmployeeController = {
 
       return res.status(200).json({
         code: 2000,
-        description: 'Success get all employees information.',
+        description: "Success get all employees information.",
         list: { ...employeeList },
       });
     } catch (e) {
@@ -133,7 +133,7 @@ const EmployeeController = {
     if (!applicationId) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined applicationId.',
+        description: "Bad request. Undefined applicationId.",
       });
     }
 
@@ -141,7 +141,7 @@ const EmployeeController = {
     if (!id) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined employeeId.',
+        description: "Bad request. Undefined employeeId.",
       });
     }
 
@@ -163,7 +163,7 @@ const EmployeeController = {
     if (!app) {
       return res.status(404).json({
         code: 4040,
-        description: 'Application ID is not found.',
+        description: "Application ID is not found.",
       });
     }
 
@@ -174,46 +174,46 @@ const EmployeeController = {
           is_deleted: false,
         },
         attributes: [
-          'employee_id',
-          'first_name',
-          'last_name',
-          'first_name_hiragana',
-          'last_name_hiragana',
-          'birthday',
-          'sex',
-          'age',
-          'mail',
-          'telephone',
-          'enter_date',
-          'retire_date',
-          'enrollment_year',
-          'enrollment_month',
-          'enrollment_day',
+          "employee_id",
+          "first_name",
+          "last_name",
+          "first_name_hiragana",
+          "last_name_hiragana",
+          "birthday",
+          "sex",
+          "age",
+          "mail",
+          "telephone",
+          "enter_date",
+          "retire_date",
+          "enrollment_year",
+          "enrollment_month",
+          "enrollment_day",
         ],
         include: [
           {
             model: Company,
             required: true,
-            as: 'company',
-            attributes: ['id', 'name', 'abbreviation'],
+            as: "company",
+            attributes: ["id", "name", "abbreviation"],
           },
           {
             model: EmployeeStatus,
             required: true,
-            as: 'employee_status',
-            attributes: ['business_manager', 'commissioning_status_id'],
+            as: "employee_status",
+            attributes: ["business_manager", "commissioning_status_id"],
             include: [
               {
                 model: Department,
                 required: true,
-                as: 'department',
-                attributes: ['id', 'name'],
+                as: "department",
+                attributes: ["id", "name"],
               },
               {
                 model: HouseStatus,
                 required: true,
-                as: 'house_status',
-                attributes: ['id', 'label'],
+                as: "house_status",
+                attributes: ["id", "label"],
               },
             ],
           },
@@ -231,7 +231,7 @@ const EmployeeController = {
 
       return res.status(200).json({
         code: 2000,
-        description: 'Success get employee data.',
+        description: "Success get employee data.",
         result: {
           employee: employee[0],
         },
@@ -241,7 +241,7 @@ const EmployeeController = {
       return res.status(500).json({
         code: 5000,
         description:
-          'Internal server error. Database error occurred when select employee',
+          "Internal server error. Database error occurred when select employee",
       });
     }
   },
@@ -251,14 +251,14 @@ const EmployeeController = {
     if (!applicationId) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined applicationId.',
+        description: "Bad request. Undefined applicationId.",
       });
     }
     const username = req._devapp ? req._devapp.token.username : null;
     if (!username) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined username.',
+        description: "Bad request. Undefined username.",
       });
     }
 
@@ -287,7 +287,7 @@ const EmployeeController = {
     ) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Invalid date',
+        description: "Bad request. Invalid date",
       });
     }
 
@@ -307,14 +307,14 @@ const EmployeeController = {
     ) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Any request body paramater is empty.',
+        description: "Bad request. Any request body paramater is empty.",
       });
     }
 
     if (validateTelephone(telephone)) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Invalid telephone number.',
+        description: "Bad request. Invalid telephone number.",
       });
     }
 
@@ -428,7 +428,7 @@ const EmployeeController = {
     if (!app) {
       return res.status(404).json({
         code: 4040,
-        description: 'Application ID is not found.',
+        description: "Application ID is not found.",
       });
     }
 
@@ -459,8 +459,8 @@ const EmployeeController = {
           telephone,
           enter_date: enterDate,
           retire_date: retireDate,
-          enter_date_milliseconds: moment(enterDate, 'YYYY-MM-DD').valueOf(),
-          retire_date_milliseconds: moment(retireDate, 'YYYY-MM-DD').valueOf(),
+          enter_date_milliseconds: moment(enterDate, "YYYY-MM-DD").valueOf(),
+          retire_date_milliseconds: moment(retireDate, "YYYY-MM-DD").valueOf(),
           enrollment_year: enrollment.years,
           enrollment_month: enrollment.months,
           enrollment_day: enrollment.days,
@@ -488,7 +488,7 @@ const EmployeeController = {
       await transaction.commit();
       return res.status(200).json({
         code: 2000,
-        description: 'Success create employee.',
+        description: "Success create employee.",
       });
     } catch (e) {
       console.error(e);
@@ -497,7 +497,7 @@ const EmployeeController = {
       return res.status(500).json({
         code: 5000,
         description:
-          'Internal server error. Database error occurred when create employee and rollback database.',
+          "Internal server error. Database error occurred when create employee and rollback database.",
       });
     }
   },
@@ -507,14 +507,14 @@ const EmployeeController = {
     if (!applicationId) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined applicationId.',
+        description: "Bad request. Undefined applicationId.",
       });
     }
     const username = req._devapp ? req._devapp.token.username : null;
     if (!username) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined username.',
+        description: "Bad request. Undefined username.",
       });
     }
 
@@ -545,7 +545,7 @@ const EmployeeController = {
     ) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Invalid date',
+        description: "Bad request. Invalid date",
       });
     }
 
@@ -566,7 +566,7 @@ const EmployeeController = {
     ) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Any request body paramater is empty.',
+        description: "Bad request. Any request body paramater is empty.",
       });
     }
 
@@ -581,7 +581,7 @@ const EmployeeController = {
     if (validateTelephone(telephone)) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Invalid telephone number.',
+        description: "Bad request. Invalid telephone number.",
       });
     }
 
@@ -695,7 +695,7 @@ const EmployeeController = {
     if (!app) {
       return res.status(404).json({
         code: 4040,
-        description: 'Application ID is not found.',
+        description: "Application ID is not found.",
       });
     }
 
@@ -714,7 +714,7 @@ const EmployeeController = {
       include: [
         {
           model: EmployeeStatus,
-          as: 'employee_status',
+          as: "employee_status",
           required: true,
         },
       ],
@@ -742,8 +742,8 @@ const EmployeeController = {
           telephone,
           enter_date: enterDate,
           retire_date: retireDate,
-          enter_date_milliseconds: moment(enterDate, 'YYYY-MM-DD').valueOf(),
-          retire_date_milliseconds: moment(retireDate, 'YYYY-MM-DD').valueOf(),
+          enter_date_milliseconds: moment(enterDate, "YYYY-MM-DD").valueOf(),
+          retire_date_milliseconds: moment(retireDate, "YYYY-MM-DD").valueOf(),
           enrollment_year: enrollment.years,
           enrollment_month: enrollment.months,
           enrollment_day: enrollment.days,
@@ -777,7 +777,7 @@ const EmployeeController = {
       return res.status(500).json({
         code: 5000,
         description:
-          'Internal server error. Database error occurred when update employee and rollback database.',
+          "Internal server error. Database error occurred when update employee and rollback database.",
       });
     }
   },
@@ -787,14 +787,14 @@ const EmployeeController = {
     if (!applicationId) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined applicationId.',
+        description: "Bad request. Undefined applicationId.",
       });
     }
     const username = req._devapp ? req._devapp.token.username : null;
     if (!username) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined username.',
+        description: "Bad request. Undefined username.",
       });
     }
 
@@ -803,7 +803,7 @@ const EmployeeController = {
     if (isEmpty(employeeId)) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Request body employeeId is empty.',
+        description: "Bad request. Request body employeeId is empty.",
       });
     }
 
@@ -825,7 +825,7 @@ const EmployeeController = {
     if (!app) {
       return res.status(404).json({
         code: 4040,
-        description: 'Application ID is not found.',
+        description: "Application ID is not found.",
       });
     }
 
@@ -837,7 +837,7 @@ const EmployeeController = {
       include: [
         {
           model: EmployeeStatus,
-          as: 'employee_status',
+          as: "employee_status",
           required: true,
         },
       ],
@@ -884,12 +884,10 @@ const EmployeeController = {
       return res.status(500).json({
         code: 5000,
         description:
-          'Internal server error. Database error occurred when delete employee and rollback database.',
+          "Internal server error. Database error occurred when delete employee and rollback database.",
       });
     }
   },
-
-  // deleteAll: async (req: Request, res: Response) => {},
 };
 
 export { EmployeeController };

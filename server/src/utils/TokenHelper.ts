@@ -1,22 +1,16 @@
-import { Request } from 'express';
-import jsonwebtoken, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
-import moment from 'moment';
-import { JWT_CONFIG } from '@config/jwt.config';
+import { Request } from "express";
+import jsonwebtoken, { JwtPayload, TokenExpiredError } from "jsonwebtoken";
+import moment from "moment";
+import { JWT_CONFIG } from "@config/jwt.config";
 
 type PayloadType = {
   username: string;
   application_id: string;
 };
 
-/**
- * ユーザー名をペイロードに含めて、アクセストークンを生成する関数.
- *
- * @param payload ユーザー名
- * @returns アクセストークン、トークン有効期限　(秒)、有効期限切れ日時(ISO(JST))
- */
 export const generateAccessToken = (payload: PayloadType) => {
   const token = jsonwebtoken.sign({ ...payload }, JWT_CONFIG.accessSecret, {
-    algorithm: 'HS256',
+    algorithm: "HS256",
     expiresIn: JWT_CONFIG.jwtExpiration,
   });
 
@@ -25,19 +19,13 @@ export const generateAccessToken = (payload: PayloadType) => {
   return {
     token,
     expiresIn: JWT_CONFIG.jwtExpiration,
-    expiresAt: now.add(JWT_CONFIG.jwtExpiration, 'seconds').toISOString(true),
+    expiresAt: now.add(JWT_CONFIG.jwtExpiration, "seconds").toISOString(true),
   };
 };
 
-/**
- * ユーザー名をペイロードに含めて、リフレッシュトークンを生成する関数.
- *
- * @param payload ユーザー名
- * @returns　アクセストークン、トークン有効期限　(秒)、有効期限切れ日時(ISO(JST))
- */
 export const generateRefreshToken = (payload: PayloadType) => {
   const token = jsonwebtoken.sign({ ...payload }, JWT_CONFIG.refreshSecret, {
-    algorithm: 'HS256',
+    algorithm: "HS256",
     expiresIn: JWT_CONFIG.jwtRefreshExpiration,
   });
 
@@ -47,38 +35,26 @@ export const generateRefreshToken = (payload: PayloadType) => {
     token,
     expiresIn: JWT_CONFIG.jwtRefreshExpiration,
     expiresAt: now
-      .add(JWT_CONFIG.jwtRefreshExpiration, 'seconds')
+      .add(JWT_CONFIG.jwtRefreshExpiration, "seconds")
       .toISOString(true),
   };
 };
 
-/**
- * リクエストヘッダーからアクセストークンを取得
- *
- * @param req express request
- * @returns Bearerトークン
- */
 export const getBearerTokenFromHeader = (req: Request) => {
   if (
     req.headers.authorization &&
-    req.headers.authorization.split(' ')[0] === 'Bearer'
+    req.headers.authorization.split(" ")[0] === "Bearer"
   ) {
-    const splitedBearerToken = req.headers.authorization.split(' ');
+    const splitedBearerToken = req.headers.authorization.split(" ");
     if (splitedBearerToken.length === 2) {
-      console.info('Success get Bearer token from headers.');
-      return req.headers.authorization.split(' ')[1];
+      console.info("Success get Bearer token from headers.");
+      return req.headers.authorization.split(" ")[1];
     }
   }
-  console.warn('Cannot get Bearer token from headers.');
+  console.warn("Cannot get Bearer token from headers.");
   return null;
 };
 
-/**
- * アクセストークンもしくはリフレッシュトークンの検証
- *
- * @param token アクセストークンもしくはリフレッシュトークン
- * @returns デコードされたトークンペイロード
- */
 export const verifyToken = <T = JwtPayload>(
   token: string,
   isRefresh = false
@@ -89,8 +65,8 @@ export const verifyToken = <T = JwtPayload>(
     return decoded as T;
   } catch (error) {
     if (error instanceof TokenExpiredError) {
-      throw new TokenExpiredError('Token was expired.', error.expiredAt);
+      throw new TokenExpiredError("Token was expired.", error.expiredAt);
     }
-    throw new Error('Invalid token.');
+    throw new Error("Invalid token.");
   }
 };

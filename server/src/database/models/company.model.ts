@@ -10,9 +10,9 @@ import {
   Model,
   Optional,
   Sequelize,
-} from 'sequelize';
-import { Employee } from '@database/models/employee.model';
-import { EmployeeDummy } from '@database/models/employeeDummy.model';
+} from "sequelize";
+import { Employee } from "@database/models/employee.model";
+import { EmployeeDummy } from "@database/models/employeeDummy.model";
 
 interface CompanyAttributes {
   id: number;
@@ -24,27 +24,19 @@ interface CompanyAttributes {
 }
 
 interface CompanyCreationAttributes
-  extends Optional<Omit<CompanyAttributes, 'id'>, 'is_deleted'> {}
+  extends Optional<Omit<CompanyAttributes, "id">, "is_deleted"> {}
 
 export class Company
   extends Model<CompanyAttributes, CompanyCreationAttributes>
   implements CompanyAttributes
 {
-  /** 会社ID */
   declare id: number;
-  /** 会社名 */
   declare name: string;
-  /** 会社略称 */
   declare abbreviation: string;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成ユーザーID */
   declare created_id: string;
-  /** 削除ユーザーID */
   declare modified_id: string;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 
   declare getEmployee: HasManyGetAssociationsMixin<Employee>;
@@ -109,11 +101,11 @@ export const CompanyInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'company',
-      charset: 'utf8',
+      tableName: "company",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

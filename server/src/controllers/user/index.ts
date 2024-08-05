@@ -1,20 +1,10 @@
-import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 
-import { User } from '@database/models/user.model';
-import { UserCreateRequest } from 'types/request';
+import { User } from "@database/models/user.model";
+import { UserCreateRequest } from "types/request";
 
 const UserController = {
-  // findAll: async (req: Request, res: Response) => {
-  //   res.status(200).json({
-  //     message: 'OK',
-  //   });
-  // },
-  // findOne: async (req: Request, res: Response) => {
-  //   res.status(200).json({
-  //     message: 'OK',
-  //   });
-  // },
   create: async (
     req: Request<undefined, undefined, UserCreateRequest, undefined>,
     res: Response
@@ -22,7 +12,7 @@ const UserController = {
     if (!req._devapp) {
       return res.status(401).json({
         code: 4010,
-        description: 'Not found access token data.',
+        description: "Not found access token data.",
       });
     }
 
@@ -31,7 +21,7 @@ const UserController = {
       return res.status(400).json({
         code: 4000,
         errors:
-          'Bad Request. Username and password must be at least 8 chars long and or less 32',
+          "Bad Request. Username and password must be at least 8 chars long and or less 32",
       });
     }
 
@@ -58,24 +48,9 @@ const UserController = {
 
     return res.status(200).json({
       code: 2000,
-      description: 'Success create user',
+      description: "Success create user",
     });
   },
-  // update: async (req: Request, res: Response) => {
-  //   res.status(200).json({
-  //     message: 'OK',
-  //   });
-  // },
-  // delete: async (req: Request, res: Response) => {
-  //   res.status(200).json({
-  //     message: 'OK',
-  //   });
-  // },
-  // deleteAll: async (req: Request, res: Response) => {
-  //   res.status(200).json({
-  //     message: 'OK',
-  //   });
-  // },
 };
 
 export { UserController };

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { logout } from "../stores/actions/authActions";
 import store from "../stores";
-import userEnv from "userEnv";
+import { userEnv } from "userEnv";
 import { REFRESH_TOKEN_ENDPOINT } from "../constants/apiUrlConst";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants/tokenConst";
 

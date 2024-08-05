@@ -1,28 +1,23 @@
-import { Request, Response } from 'express';
-import archiver from 'archiver';
-import streams from 'memory-streams';
-import { Op, WhereOptions } from 'sequelize';
-import { DB } from '@database/index';
-import { Employee, EmployeeAttributes } from '@database/models/employee.model';
-import { EmployeeStatus } from '@database/models/employeeStatus.model';
-import { generateAccessToken, generateRefreshToken } from '@utils/TokenHelper';
+import { Request, Response } from "express";
+import archiver from "archiver";
+import streams from "memory-streams";
+import { Op, WhereOptions } from "sequelize";
+import { DB } from "@database/index";
+import { Employee, EmployeeAttributes } from "@database/models/employee.model";
+import { EmployeeStatus } from "@database/models/employeeStatus.model";
+import { generateAccessToken, generateRefreshToken } from "@utils/TokenHelper";
 
 const DownloadController = {
   downloadGet: async (req: Request, res: Response) => {
     const writer = new streams.WritableStream();
-    writer.on('finish', () => {
-      // res.set({ 'Content-Type': 'application/octet-stream' });
-      res.set({ 'Content-Type': 'application/octet-stream' });
-      // res.set({ 'Content-Type': 'application/zip' });
-      res.set({ 'Content-Disposition': 'attachment; filename=download.zip' });
+    writer.on("finish", () => {
+      res.set({ "Content-Type": "application/octet-stream" });
+      res.set({ "Content-Disposition": "attachment; filename=download.zip" });
       console.log(writer.toBuffer());
-      // res.send('a');
-      // res.json({ data: writer.toBuffer() });
       res.json([...writer.toBuffer()]);
-      // res.send(writer.toBuffer());
     });
 
-    const archive = archiver('zip', {
+    const archive = archiver("zip", {
       zlib: { level: 9 },
     });
     archive.pipe(writer);
@@ -34,30 +29,26 @@ const DownloadController = {
     archive.finalize();
   },
   downloadGet1: async (req: Request, res: Response) => {
-    // zip形式で圧縮
-    const archive = archiver('zip', {
-      zlib: { level: 9 }, // 圧縮レベルを指定
+    const archive = archiver("zip", {
+      zlib: { level: 9 },
     });
-    // レスポンスに出力内容をpipe
     archive.pipe(res);
-    // zipファイルにデータを登録
-    archive.append('file.txtの内容です', { name: 'file.txt' });
-    // 内容をzip化
+    archive.append("file.txtの内容です", { name: "file.txt" });
     archive.finalize();
   },
   downloadGet2: async (req: Request, res: Response) => {
     res.json({
-      message: 'success get2',
+      message: "success get2",
     });
   },
   downloadGet3: async (req: Request, res: Response) => {
     res.json({
-      message: 'success get3',
+      message: "success get3",
     });
   },
   downloadGet4: async (req: Request, res: Response) => {
     res.json({
-      message: 'success get4',
+      message: "success get4",
     });
   },
 };

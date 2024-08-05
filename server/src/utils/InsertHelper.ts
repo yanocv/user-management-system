@@ -1,31 +1,20 @@
-import moment from 'moment';
+import moment from "moment";
 
-const DATE_FORMAT = 'YYYY-MM-DD';
+const DATE_FORMAT = "YYYY-MM-DD";
 const CALC_TYPE = {
-  years: 'years',
-  months: 'months',
-  days: 'days',
+  years: "years",
+  months: "months",
+  days: "days",
 } as const;
 
-type CalcValueType = typeof CALC_TYPE[keyof typeof CALC_TYPE];
+type CalcValueType = (typeof CALC_TYPE)[keyof typeof CALC_TYPE];
 
-/**
- *
- * @param from YYYY-MM-DD の形式
- * @param to YYYY-MM-DD の形式
- * @param type CALC_TYPE
- * @returns
- */
 export const calcDiff = (
   from: string,
   to: string | undefined | null,
   type: CalcValueType
 ) =>
   moment(to ? moment(to, DATE_FORMAT) : moment(), DATE_FORMAT).diff(from, type);
-
-// ************************************************************
-// calculation Enrollment
-// ************************************************************
 
 const calcEnrollmentDays = (
   enterDate: string,
@@ -47,7 +36,7 @@ const calcEnrollmentYears = (
 
   // NOTE: 0ヶ月の場合は表示しない
   return `${enrollmentYears}年${
-    monthsRemainder === 0 ? '' : monthsRemainder + 'ヶ月'
+    monthsRemainder === 0 ? "" : monthsRemainder + "ヶ月"
   }`.toString();
 };
 
@@ -64,26 +53,15 @@ export const calcEnrollment = (
 // calculation Age
 // ************************************************************
 
-export const calcAge = (birthday: string) => calcDiff(birthday, null, 'years');
+export const calcAge = (birthday: string) => calcDiff(birthday, null, "years");
 
-// ************************************************************
-// random number generater
-// ************************************************************
-
-/**
- * ランダム整数を範囲指定して生成する関数.
- *
- * @param from 生成するランダム整数の最小値
- * @param to 生成するランダム整数の最大値
- * @returns 指定した範囲のランダム整数
- */
 export const generateSpecifyRandom = (from: number, to: number) =>
   Math.floor(Math.random() * (to - from + 1)) + from;
 
 export const generateRandomTelephoneNumber = () => {
   const worldNumber = `0${generateSpecifyRandom(7, 9)}0`;
 
-  let tel8Number = '';
+  let tel8Number = "";
   for (let i = 0; i < 8; i += 1) {
     tel8Number += generateSpecifyRandom(0, 9);
   }
@@ -94,13 +72,13 @@ export const generateRandomTelephoneNumber = () => {
 export const addBeginningSentence = (
   sentence: string | number,
   addText: string,
-  insertionPosition: 'start' | 'end' = 'start'
+  insertionPosition: "start" | "end" = "start"
 ) => {
   const strSentence =
-    typeof sentence === 'number' ? sentence.toString() : sentence;
+    typeof sentence === "number" ? sentence.toString() : sentence;
 
   const addedSentence =
-    insertionPosition === 'start'
+    insertionPosition === "start"
       ? `${addText}${strSentence}`
       : `${strSentence}${addText}`;
 
@@ -129,26 +107,26 @@ export const generateRnadomDay = (year: number, month: string) => {
 };
 
 export const validateDate = (data: unknown) => {
-  if (typeof data !== 'string') {
-    console.warn('Invalid date type.');
+  if (typeof data !== "string") {
+    console.warn("Invalid date type.");
     return false;
   }
   if (/^\d{4}-\d{2}-\d{2}$/.test(data)) {
-    if (moment(data, 'YYYY-MM-DD').isValid()) {
+    if (moment(data, "YYYY-MM-DD").isValid()) {
       return true;
     }
-    console.warn('Invalid date.');
+    console.warn("Invalid date.");
     return false;
   }
-  console.warn('Invalid date format.');
+  console.warn("Invalid date format.");
   return false;
 };
 
 export const toInt = (v: unknown) => {
-  if (typeof v === 'number') {
+  if (typeof v === "number") {
     return v;
   }
-  if (typeof v !== 'string') {
+  if (typeof v !== "string") {
     return null;
   }
   if (/^\d+$/.test(v)) {
@@ -158,7 +136,7 @@ export const toInt = (v: unknown) => {
 };
 
 export const validateTelephone = (v: unknown) => {
-  if (typeof v !== 'string') {
+  if (typeof v !== "string") {
     return false;
   }
   if (/^\d{10, 11}$/.test(v)) {
@@ -171,7 +149,7 @@ export const isEmpty = (v: unknown) => {
   if (v == null) {
     return true;
   }
-  if (typeof v === 'string') {
+  if (typeof v === "string") {
     return v.length === 0;
   }
 
@@ -180,15 +158,15 @@ export const isEmpty = (v: unknown) => {
   }
 
   if (
-    typeof v === 'function' ||
-    typeof v === 'boolean' ||
-    typeof v === 'symbol' ||
-    typeof v === 'number'
+    typeof v === "function" ||
+    typeof v === "boolean" ||
+    typeof v === "symbol" ||
+    typeof v === "number"
   ) {
     return false;
   }
 
-  if (typeof v === 'object') {
+  if (typeof v === "object") {
     return Object.keys(v).length === 0;
   }
   return false;

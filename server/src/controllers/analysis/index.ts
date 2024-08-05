@@ -1,16 +1,16 @@
-import { Request, Response } from 'express';
-import { Op } from 'sequelize';
-import moment from 'moment';
-import { Company } from '@database/models/company.model';
-import { Department } from '@database/models/department.model';
-import { EmployeeDummy } from '@database/models/employeeDummy.model';
-import { EmployeeStatusDummy } from '@database/models/employeeStatusDummy.model';
+import { Request, Response } from "express";
+import { Op } from "sequelize";
+import moment from "moment";
+import { Company } from "@database/models/company.model";
+import { Department } from "@database/models/department.model";
+import { EmployeeDummy } from "@database/models/employeeDummy.model";
+import { EmployeeStatusDummy } from "@database/models/employeeStatusDummy.model";
 
 import {
   COMMISSIONING_STATUS,
   DEPARTMENT,
   HOUSE_STATUS,
-} from '@constants/Database';
+} from "@constants/Database";
 
 const getDepartmentStatus = async (
   number: number
@@ -50,16 +50,6 @@ const getDepartmentStatus = async (
 };
 
 const AnalysisController = {
-  /**
-   * グループ全体の以下情報を返却する関数
-   *
-   *     2021年1月~12月の社員数
-   *     現在の社員数
-   *     前月の新入社員
-   *     前月の退職者数
-   * @param req express.Request
-   * @param res express.Response
-   */
   employeesAll: async (req: Request, res: Response) => {
     try {
       const [total, newJoin, retire] = await Promise.all([
@@ -68,7 +58,7 @@ const AnalysisController = {
             {
               model: EmployeeStatusDummy,
               required: true,
-              as: 'employee_status_dummy',
+              as: "employee_status_dummy",
               where: {
                 house_status_id: {
                   [Op.or]: [HOUSE_STATUS.JOIN, HOUSE_STATUS.REST],
@@ -81,8 +71,8 @@ const AnalysisController = {
           where: {
             enter_date_milliseconds: {
               [Op.between]: [
-                moment('2021-12-01', 'YYYY-MM-DD').valueOf(),
-                moment('2021-12-31', 'YYYY-MM-DD').valueOf(),
+                moment("2021-12-01", "YYYY-MM-DD").valueOf(),
+                moment("2021-12-31", "YYYY-MM-DD").valueOf(),
               ],
             },
           },
@@ -91,8 +81,8 @@ const AnalysisController = {
           where: {
             retire_date_milliseconds: {
               [Op.between]: [
-                moment('2021-12-01', 'YYYY-MM-DD').valueOf(),
-                moment('2021-12-31', 'YYYY-MM-DD').valueOf(),
+                moment("2021-12-01", "YYYY-MM-DD").valueOf(),
+                moment("2021-12-31", "YYYY-MM-DD").valueOf(),
               ],
             },
           },
@@ -100,18 +90,18 @@ const AnalysisController = {
       ]);
 
       const eachLastDayOfMonth = [
-        '2021-01-31',
-        '2021-02-28',
-        '2021-03-31',
-        '2021-04-30',
-        '2021-05-31',
-        '2021-06-30',
-        '2021-07-31',
-        '2021-08-31',
-        '2021-09-30',
-        '2021-10-31',
-        '2021-11-30',
-        '2021-12-31',
+        "2021-01-31",
+        "2021-02-28",
+        "2021-03-31",
+        "2021-04-30",
+        "2021-05-31",
+        "2021-06-30",
+        "2021-07-31",
+        "2021-08-31",
+        "2021-09-30",
+        "2021-10-31",
+        "2021-11-30",
+        "2021-12-31",
       ];
 
       const [
@@ -132,12 +122,12 @@ const AnalysisController = {
           return EmployeeDummy.count({
             where: {
               enter_date_milliseconds: {
-                [Op.lte]: moment(day, 'YYYY-MM-DD').valueOf(),
+                [Op.lte]: moment(day, "YYYY-MM-DD").valueOf(),
               },
               [Op.or]: [
                 {
                   retire_date_milliseconds: {
-                    [Op.gt]: moment(day, 'YYYY-MM-DD').valueOf(),
+                    [Op.gt]: moment(day, "YYYY-MM-DD").valueOf(),
                   },
                 },
                 { retire_date: null },
@@ -146,7 +136,7 @@ const AnalysisController = {
             include: [
               {
                 model: EmployeeStatusDummy,
-                as: 'employee_status_dummy',
+                as: "employee_status_dummy",
                 required: true,
                 where: {
                   house_status_id: {
@@ -161,7 +151,7 @@ const AnalysisController = {
 
       return res.status(200).json({
         code: 2000,
-        description: 'Success get analysis all companies employee data.',
+        description: "Success get analysis all companies employee data.",
         result: {
           fluctuation: {
             January,
@@ -186,27 +176,18 @@ const AnalysisController = {
       console.error(e);
       return res.status(500).json({
         code: 5000,
-        description: 'Internal server error. Database error occurred.',
+        description: "Internal server error. Database error occurred.",
       });
     }
   },
-  /**
-   * companyIdに該当する会社の以下情報を返却する関数.
-   *
-   *     2021年1月~12月の社員数
-   *     現在の社員数
-   *     前月の新入社員
-   *     前月の退職者数
-   * @param req express.Request
-   * @param res express.Response
-   */
+
   companyEmployees: async (req: Request, res: Response) => {
     const { companyId } = req.params;
 
     if (!companyId) {
       return res.status(400).json({
         code: 4000,
-        description: 'Bad request. Undefined companyId.',
+        description: "Bad request. Undefined companyId.",
       });
     }
 
@@ -227,23 +208,23 @@ const AnalysisController = {
       return res.status(500).json({
         code: 5000,
         description:
-          'Internal server error. Database error occurred when select Company',
+          "Internal server error. Database error occurred when select Company",
       });
     }
 
     const eachLastDayOfMonth = [
-      '2021-01-31',
-      '2021-02-28',
-      '2021-03-31',
-      '2021-04-30',
-      '2021-05-31',
-      '2021-06-30',
-      '2021-07-31',
-      '2021-08-31',
-      '2021-09-30',
-      '2021-10-31',
-      '2021-11-30',
-      '2021-12-31',
+      "2021-01-31",
+      "2021-02-28",
+      "2021-03-31",
+      "2021-04-30",
+      "2021-05-31",
+      "2021-06-30",
+      "2021-07-31",
+      "2021-08-31",
+      "2021-09-30",
+      "2021-10-31",
+      "2021-11-30",
+      "2021-12-31",
     ];
 
     try {
@@ -266,12 +247,12 @@ const AnalysisController = {
             where: {
               company_id: companyId,
               enter_date_milliseconds: {
-                [Op.lte]: moment(day, 'YYYY-MM-DD').valueOf(),
+                [Op.lte]: moment(day, "YYYY-MM-DD").valueOf(),
               },
               [Op.or]: [
                 {
                   retire_date_milliseconds: {
-                    [Op.gt]: moment(day, 'YYYY-MM-DD').valueOf(),
+                    [Op.gt]: moment(day, "YYYY-MM-DD").valueOf(),
                   },
                 },
                 { retire_date: null },
@@ -280,7 +261,7 @@ const AnalysisController = {
             include: [
               {
                 model: EmployeeStatusDummy,
-                as: 'employee_status_dummy',
+                as: "employee_status_dummy",
                 required: true,
                 where: {
                   house_status_id: {
@@ -301,7 +282,7 @@ const AnalysisController = {
           {
             model: EmployeeStatusDummy,
             required: true,
-            as: 'employee_status_dummy',
+            as: "employee_status_dummy",
             where: {
               house_status_id: {
                 [Op.or]: [HOUSE_STATUS.JOIN, HOUSE_STATUS.REST],
@@ -316,8 +297,8 @@ const AnalysisController = {
           company_id: companyId,
           enter_date_milliseconds: {
             [Op.between]: [
-              moment('2021-12-01', 'YYYY-MM-DD').valueOf(),
-              moment('2021-12-31', 'YYYY-MM-DD').valueOf(),
+              moment("2021-12-01", "YYYY-MM-DD").valueOf(),
+              moment("2021-12-31", "YYYY-MM-DD").valueOf(),
             ],
           },
           is_deleted: false,
@@ -329,8 +310,8 @@ const AnalysisController = {
           company_id: companyId,
           retire_date_milliseconds: {
             [Op.between]: [
-              moment('2021-12-01', 'YYYY-MM-DD').valueOf(),
-              moment('2021-12-31', 'YYYY-MM-DD').valueOf(),
+              moment("2021-12-01", "YYYY-MM-DD").valueOf(),
+              moment("2021-12-31", "YYYY-MM-DD").valueOf(),
             ],
           },
           is_deleted: false,
@@ -364,17 +345,11 @@ const AnalysisController = {
       console.error(e);
       return res.status(500).json({
         code: 5000,
-        description: 'Internal server error. Database error occurred.',
+        description: "Internal server error. Database error occurred.",
       });
     }
   },
 
-  /**
-   * 開発、ＮＷ、検証事業部の稼働率と非稼働率を返却する関数.
-   *
-   * @param req express.Request
-   * @param res express.Response
-   */
   departmentsComparison: async (req: Request, res: Response) => {
     try {
       const dev = await getDepartmentStatus(DEPARTMENT.DEV);
@@ -387,20 +362,9 @@ const AnalysisController = {
         }, 2000);
       });
 
-      // WARNING: for test
-      // return res.status(500).json({
-      //   code: 5000,
-      //   description: 'Success get employee information data.',
-      //   departments: {
-      //     dev,
-      //     nw,
-      //     verify,
-      //   },
-      // });
-
       return res.status(200).json({
         code: 2000,
-        description: 'Success get employee information data.',
+        description: "Success get employee information data.",
         departments: {
           dev,
           nw,
@@ -411,19 +375,11 @@ const AnalysisController = {
       console.error(e);
       return res.status(500).json({
         code: 5000,
-        description: 'Internal server error. Database error occurred.',
+        description: "Internal server error. Database error occurred.",
       });
     }
   },
 
-  /**
-   * 各事業部の社員数を返却する関数.
-   *
-   * 数値は employee_status_dummy.house_status_id が 0(在職) or 4(休職) の総数
-   *
-   * @param req express.Request
-   * @param res express.Response
-   */
   departmentsRatio: async (req: Request, res: Response) => {
     try {
       const [dev, nw, verify, office, manage] = await Promise.all(
@@ -442,7 +398,7 @@ const AnalysisController = {
             include: [
               {
                 model: EmployeeStatusDummy,
-                as: 'employee_status_dummy',
+                as: "employee_status_dummy",
                 required: true,
                 where: {
                   house_status_id: {
@@ -488,23 +444,16 @@ const AnalysisController = {
         }, 5000);
       });
 
-      // WARNING: for test
-      // return res.status(500).json({
-      //   code: 5000,
-      //   description: 'Success get employees each department',
-      //   departments: sortedDepartments,
-      // });
-
       return res.status(200).json({
         code: 2000,
-        description: 'Success get employees each department',
+        description: "Success get employees each department",
         departments: sortedDepartments,
       });
     } catch (e) {
       console.error(e);
       return res.status(500).json({
         code: 5000,
-        description: 'Internal server error. Database error occurred.',
+        description: "Internal server error. Database error occurred.",
       });
     }
   },

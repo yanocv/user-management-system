@@ -24,19 +24,14 @@ export const FormContainer = ({
   deleteButtonLabel,
   employeeData,
 }) => {
-  console.log("employeeData", employeeData.birthday);
   // Initialize formValues based on editEmployeeData or initialFormValues
-  const [formValues, setFormValues] = useState({
-    ...initialFormValues,
-    birthday: employeeData.birthday,
-  });
+  const [formValues, setFormValues] = useState(initialFormValues);
   // Error messages for input fields
   const [inputFieldErrorMessage, setInputFieldErrorMessage] = useState({
     lastName: "",
     firstName: "",
     lastNameHiragana: "",
     firstNameHiragana: "",
-    birthday: "",
     telephone: "",
     mail: "",
     retireDate: "",
@@ -172,38 +167,29 @@ export const FormContainer = ({
 
   return (
     <>
-      {employeeData && (
-        <>
-          <div
-            noValidate
-            className={`d-flex flex-column ${styles.formContainer}`}
-          >
-            <SectionTitle title="個人情報" />
-            <FormSection
-              inputs={isEdit ? personalFieldsWithValues : personalInfoFields}
-              onChange={handleFieldChange}
-              errorMessage={inputFieldErrorMessage}
-            />
+      <div noValidate className={`d-flex flex-column ${styles.formContainer}`}>
+        <SectionTitle title="個人情報" />
+        <FormSection
+          inputs={isEdit ? personalFieldsWithValues : personalInfoFields}
+          onChange={handleFieldChange}
+          errorMessage={inputFieldErrorMessage}
+        />
 
-            <SectionTitle title="社員情報" />
-            <FormSection
-              inputs={
-                isEdit ? shaiinFieldsWithValues : shaiinInfoFields.slice(1)
-              }
-              onChange={handleFieldChange}
-              errorMessage={inputFieldErrorMessage}
-            />
-          </div>
-          <Footer
-            backButtonLink={EMPLOYEE_LIST_PAGE}
-            backButtonLabel={backButtonLabel}
-            registerButtonLabel={registerButtonLabel}
-            isEdit={isEdit}
-            deleteButtonLabel={deleteButtonLabel}
-            handleForm={() => handleForm(formValues, isEdit)}
-          />
-        </>
-      )}
+        <SectionTitle title="社員情報" />
+        <FormSection
+          inputs={isEdit ? shaiinFieldsWithValues : shaiinInfoFields.slice(1)}
+          onChange={handleFieldChange}
+          errorMessage={inputFieldErrorMessage}
+        />
+      </div>
+      <Footer
+        backButtonLink={EMPLOYEE_LIST_PAGE}
+        backButtonLabel={backButtonLabel}
+        registerButtonLabel={registerButtonLabel}
+        isEdit={isEdit}
+        deleteButtonLabel={deleteButtonLabel}
+        handleForm={() => handleForm(formValues, isEdit)}
+      />
     </>
   );
 };

@@ -11,7 +11,7 @@ import {
 import { InputField } from "../components/common/InputField";
 import { apiPostCall } from "../utils/apiUtil";
 import Button from "../components/common/Button";
-import userEnv from "userEnv";
+import { userEnv } from "userEnv";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants/tokenConst";
 import { AUTH_ENDPOINT } from "../constants/apiUrlConst";
 

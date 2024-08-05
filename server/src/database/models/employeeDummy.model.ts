@@ -10,10 +10,10 @@ import {
   BelongsToCreateAssociationMixin,
   HasOneGetAssociationMixin,
   HasOneSetAssociationMixin,
-} from 'sequelize';
-import { App } from './app.model';
-import { Company } from '@database/models/company.model';
-import { EmployeeStatusDummy } from '@database/models/employeeStatusDummy.model';
+} from "sequelize";
+import { App } from "./app.model";
+import { Company } from "@database/models/company.model";
+import { EmployeeStatusDummy } from "@database/models/employeeStatusDummy.model";
 
 export interface EmployeeDummyAttributes {
   composite_id: string;
@@ -45,70 +45,40 @@ export interface EmployeeDummyAttributes {
 
 interface EmployeeDummyCreationAttributes
   extends Optional<
-    Omit<EmployeeDummyAttributes, 'full_name' | 'full_name_hiragana'>,
-    'is_deleted'
+    Omit<EmployeeDummyAttributes, "full_name" | "full_name_hiragana">,
+    "is_deleted"
   > {}
 
 export class EmployeeDummy
   extends Model<EmployeeDummyAttributes, EmployeeDummyCreationAttributes>
   implements EmployeeDummyAttributes
 {
-  /** PK */
   declare composite_id: string;
-  /** 社員ID */
   declare employee_id: number;
-  /**
-   * アプリケーション固有のID
-   * アプリケーションIDとuserテーブルの username 使って複合種キーとする
-   */
   declare application_id: string;
-  /** 姓 */
   declare first_name: string;
-  /** 名 */
   declare last_name: string;
-  /** 姓（ひらがな） */
   declare first_name_hiragana: string;
-  /** 名（ひらがな） */
   declare last_name_hiragana: string;
-  /** 姓名 */
   declare full_name: string;
-  /** 姓名（ひらがな） */
   declare full_name_hiragana: string;
-  /** 会社ID */
   declare company_id: number;
-  /** 誕生日 */
   declare birthday: string;
-  /** 性別 */
   declare sex: number;
-  /** 年齢 */
   declare age: number;
-  /** メールアドレス */
   declare mail: string;
-  /** 電話番号 */
   declare telephone: string;
-  /** 入社日 */
   declare enter_date: string;
-  /** 退社日 */
   declare retire_date: string | null;
-  /** 入社日ミリ秒 */
   declare enter_date_milliseconds: number;
-  /** 退社日ミリ秒 */
   declare retire_date_milliseconds: number | null;
-  /** 所属年数 */
   declare enrollment_year: string;
-  /** 所属月数 */
   declare enrollment_month: string;
-  /** 所属日数 */
   declare enrollment_day: string;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成ユーザーID */
   declare created_id: string;
-  /** 更新ユーザーID */
   declare modified_id: string;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 
   declare getApp: BelongsToGetAssociationMixin<App>;
@@ -149,13 +119,13 @@ export const EmployeeDummyInit = (sequelize: Sequelize) => {
       employee_id: {
         type: DataTypes.INTEGER,
         // primaryKey: true,
-        unique: 'CompositePrimaryKey',
+        unique: "CompositePrimaryKey",
         allowNull: false,
       },
       application_id: {
         type: DataTypes.STRING,
         // primaryKey: true,
-        unique: 'CompositePrimaryKey',
+        unique: "CompositePrimaryKey",
         allowNull: false,
       },
       first_name: {
@@ -178,8 +148,8 @@ export const EmployeeDummyInit = (sequelize: Sequelize) => {
         type: DataTypes.TEXT,
         allowNull: true,
         get() {
-          return `${this.getDataValue('first_name')} ${this.getDataValue(
-            'last_name'
+          return `${this.getDataValue("first_name")} ${this.getDataValue(
+            "last_name"
           )}`;
         },
       },
@@ -188,8 +158,8 @@ export const EmployeeDummyInit = (sequelize: Sequelize) => {
         allowNull: true,
         get() {
           return `${this.getDataValue(
-            'first_name_hiragana'
-          )} ${this.getDataValue('last_name_hiragana')}`;
+            "first_name_hiragana"
+          )} ${this.getDataValue("last_name_hiragana")}`;
         },
       },
       company_id: {
@@ -260,11 +230,11 @@ export const EmployeeDummyInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'employee_dummy',
-      charset: 'utf8',
+      tableName: "employee_dummy",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

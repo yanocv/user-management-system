@@ -1,32 +1,22 @@
-import { Request, Response } from 'express';
-import { TokenExpiredError } from 'jsonwebtoken';
-import type { JwtDecodedPayload } from 'types/jwt';
-import type { LoginRequest } from 'types/request';
-import { User } from '@database/models/user.model';
+import { Request, Response } from "express";
+import { TokenExpiredError } from "jsonwebtoken";
+import type { JwtDecodedPayload } from "types/jwt";
+import type { LoginRequest } from "types/request";
+import { User } from "@database/models/user.model";
 import {
   generateAccessToken,
   generateRefreshToken,
   getBearerTokenFromHeader,
   verifyToken,
-} from '@utils/TokenHelper';
+} from "@utils/TokenHelper";
 
-/**
- * 認証及びログインに使用するコントローラ.
- */
 const AuthController = {
-  /**
-   * リフレッシュトークンを用いてアクセストークンを再発行する関数.
-   *
-   * @param req express Request
-   * @param res express Response
-   * @returns 再発行されたアクセストークン情報とリフレッシュトークン
-   */
   auth: async (req: Request, res: Response) => {
     const refreshToken = getBearerTokenFromHeader(req);
     if (!refreshToken) {
       return res.status(401).json({
         code: 4010,
-        description: 'UnAuthorization refresh token not found in request',
+        description: "UnAuthorization refresh token not found in request",
       });
     }
 
@@ -37,7 +27,7 @@ const AuthController = {
       if (error instanceof TokenExpiredError) {
         return res.status(401).json({
           code: 4010,
-          description: 'UnAuthorization refresh token was expired.',
+          description: "UnAuthorization refresh token was expired.",
         });
       }
       if (error instanceof Error) {
@@ -48,7 +38,7 @@ const AuthController = {
       }
       return res.status(500).json({
         code: 5000,
-        description: 'Internal Server Error. Unkown error occurred.',
+        description: "Internal Server Error. Unkown error occurred.",
       });
     }
 
@@ -73,13 +63,7 @@ const AuthController = {
       },
     });
   },
-  /**
-   * ログイン処理を行う関数.
-   *
-   * @param req LoginRequest を body に含めたリクエスト
-   * @param res express.Response
-   * @returns アクセストークン情報とリフレッシュトークン
-   */
+
   login: async (
     req: Request<undefined, undefined, LoginRequest, undefined>,
     res: Response
@@ -89,7 +73,7 @@ const AuthController = {
       return res.status(400).json({
         code: 4000,
         description:
-          'Invalid parameter. Must be set username, password and applicationId',
+          "Invalid parameter. Must be set username, password and applicationId",
       });
     }
 
@@ -107,7 +91,7 @@ const AuthController = {
       if (!user) {
         return res.status(404).json({
           code: 4040,
-          description: 'User not found.',
+          description: "User not found.",
         });
       }
 
@@ -135,7 +119,7 @@ const AuthController = {
       console.error(e);
       return res.status(500).json({
         code: 5000,
-        description: 'Internal server error. Database error occurred.',
+        description: "Internal server error. Database error occurred.",
       });
     }
   },

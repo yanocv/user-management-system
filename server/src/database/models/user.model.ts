@@ -7,9 +7,9 @@ import {
   BelongsToGetAssociationMixin,
   BelongsToSetAssociationMixin,
   BelongsToCreateAssociationMixin,
-} from 'sequelize';
-import { App } from './app.model';
-import { Permission } from '@database/models/permission.model';
+} from "sequelize";
+import { App } from "./app.model";
+import { Permission } from "@database/models/permission.model";
 
 interface UserAttributes {
   application_id: string;
@@ -22,32 +22,20 @@ interface UserAttributes {
 }
 
 export interface UserCreationAttributes
-  extends Optional<UserAttributes, 'is_deleted'> {}
+  extends Optional<UserAttributes, "is_deleted"> {}
 
 export class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  /**
-   * アプリケーション固有のID
-   * アプリケーションIDとuserテーブルの username 使って複合種キーとする
-   */
   declare application_id: string;
-  /** ユーザー名 */
   declare username: string;
-  /** パスワード */
   declare password: string;
-  /** 権限 */
   declare permission_id: number;
-  /** 論理削除 */
   declare is_deleted: boolean;
-  /** 作成ユーザーID */
   declare created_id: string;
-  /** 更新ユーザーID */
   declare modified_id: string;
-  /** 作成日時 */
   declare readonly created: Date;
-  /** 更新日時 */
   declare readonly modified: Date;
 
   declare getApp: BelongsToGetAssociationMixin<App>;
@@ -74,13 +62,13 @@ export const UserInit = (sequelize: Sequelize) => {
       application_id: {
         type: DataTypes.STRING,
         primaryKey: true,
-        unique: 'CompositePrimaryKey',
+        unique: "CompositePrimaryKey",
         allowNull: false,
       },
       username: {
         type: DataTypes.STRING,
         primaryKey: true,
-        unique: 'CompositePrimaryKey',
+        unique: "CompositePrimaryKey",
         allowNull: false,
       },
       password: {
@@ -107,11 +95,11 @@ export const UserInit = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'user',
-      charset: 'utf8',
+      tableName: "user",
+      charset: "utf8",
       timestamps: true,
-      createdAt: 'created',
-      updatedAt: 'modified',
+      createdAt: "created",
+      updatedAt: "modified",
     }
   );
 };

@@ -45,7 +45,7 @@ export const Employee = ({ isEdit }) => {
 
   useEffect(() => {
     dispatch(setEmployeeId(employeeId));
-  }, [employeeId, dispatch]);
+  }, [employeeId, dispatch, employeeData]);
 
   return (
     <div className="container-fluid flex-shrink-1 p-0">

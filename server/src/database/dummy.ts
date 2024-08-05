@@ -1,19 +1,19 @@
-import moment from 'moment';
-import { v4 as uuidV4 } from 'uuid';
-import { DB } from '.';
-import type { UserCreationAttributes } from './models/user.model';
-import { App } from './models/app.model';
-import { User } from './models/user.model';
-import { Employee } from './models/employee.model';
-import { EmployeeStatus } from './models/employeeStatus.model';
-import { EmployeeDummy } from './models/employeeDummy.model';
-import { EmployeeStatusDummy } from './models/employeeStatusDummy.model';
-import { Company } from './models/company.model';
-import { Department } from './models/department.model';
-import { Permission } from './models/permission.model';
-import { HouseStatus } from './models/houseStatus.model';
-import type { TopicCreationAttributes } from './models/topic.model';
-import { Topic } from './models/topic.model';
+import moment from "moment";
+import { v4 as uuidV4 } from "uuid";
+import { DB } from ".";
+import type { UserCreationAttributes } from "./models/user.model";
+import { App } from "./models/app.model";
+import { User } from "./models/user.model";
+import { Employee } from "./models/employee.model";
+import { EmployeeStatus } from "./models/employeeStatus.model";
+import { EmployeeDummy } from "./models/employeeDummy.model";
+import { EmployeeStatusDummy } from "./models/employeeStatusDummy.model";
+import { Company } from "./models/company.model";
+import { Department } from "./models/department.model";
+import { Permission } from "./models/permission.model";
+import { HouseStatus } from "./models/houseStatus.model";
+import type { TopicCreationAttributes } from "./models/topic.model";
+import { Topic } from "./models/topic.model";
 import {
   calcDiff,
   calcAge,
@@ -22,14 +22,14 @@ import {
   generateRandomTelephoneNumber,
   generateRnadomDay,
   addBeginningSentence,
-} from '@utils/InsertHelper';
+} from "@utils/InsertHelper";
 import {
   COMMISSIONING_STATUS,
   COMPANY,
   CompanyType,
   DEPARTMENT,
   HOUSE_STATUS,
-} from 'src/constants/Database';
+} from "src/constants/Database";
 
 export const initData = async (): Promise<void> => {
   await Promise.all(createDepartment());
@@ -42,101 +42,101 @@ export const initData = async (): Promise<void> => {
 };
 
 const createDepartment = (): Promise<Department>[] => {
-  const names = ['開発', 'ＮＷ', '検証', 'オフィス', '管理'];
+  const names = ["開発", "ＮＷ", "検証", "オフィス", "管理"];
   return names.map((name: string, idx: number) =>
     Department.create({
       id: idx,
       name,
       is_deleted: false,
-      created_id: 'system',
-      modified_id: 'system',
+      created_id: "system",
+      modified_id: "system",
     })
   );
 };
 
 const createPermission = (): Promise<Permission>[] => {
-  const permissions = ['root', '管理者', 'ユーザー'];
+  const permissions = ["root", "管理者", "ユーザー"];
   return permissions.map((permission: string, idx: number) =>
     Permission.create({
       id: idx,
       label: permission,
       is_deleted: false,
-      created_id: 'system',
-      modified_id: 'system',
+      created_id: "system",
+      modified_id: "system",
     })
   );
 };
 
 const companies = [
-  'セキュアイノベーション',
-  'セキュアウェアラブルアイル',
-  'セキュアインフラストラクチャー',
-  'セキュアサスティーン',
-  'セキュアオプティマイズ',
-  'セキュアアクシス',
-  'セキュアトリニティ',
-  'セキュアアイリス',
-  'セキュアギークス',
-  'セキュアスクワッド',
-  'プラウドデータ',
-  'Vプラウド',
-  'プラウドリード',
-  'プラウドリンク',
-  'プラウドフロー',
-  'プラウドUSER',
-  'プラウドグロリア',
-  'エルバーククオリティ',
-  'エルバークエイム',
-  'Vエルバーク',
-  'エルバークギア',
-  'エルバーククラウド',
-  'エルバークJohn',
-  'エルバークスクリプト',
-  'ライズ',
-  'ライズカーネル',
-  'Vライズ',
-  'ライズロア',
-  'ライズエクシード',
-  'ゼディアホールディングス',
-  'ゼディアルーク',
-  'ゼディアレーゲン',
-  'ゼディアミラ',
+  "テクノインダストリーズネットワーク",
+  "スカイラインウェブイノベーションズ",
+  "スペクトラムインテグレーションファーム",
+  "スターライトソフトウェアテクノロジーズ",
+  "スウィフトオペレーションプラットフォーム",
+  "シルバーアローエクスプレス",
+  "サミットテックリソーシーズ",
+  "ソラリスイノベーションリサーチ",
+  "グローバルソリューショングループ",
+  "サンライズソリューションズクオリティ",
+  "プライムデータアナリティクス",
+  "ヴァンガードパフォーマンスリソーシーズ",
+  "ピナクルロジスティクスディベロプメント",
+  "ピークラーニングキッツ",
+  "ポラリスフィナンシャルロジスティクス",
+  "プレスティージユーティリティサービス",
+  "フェニックスグロースオポチュニティーズ",
+  "ルナービジネスクエスト",
+  "ライトハウスビジネスアドバイザーズ",
+  "ビジョナリーリーダーシップボード",
+  "リバティービジネスグループ",
+  "ルミナスビジネスクラウド",
+  "ルナーベースジュピター",
+  "ライオンハートビジネスソリューションズ",
+  "ルネッサンスインフォメーションシステムズ",
+  "ロケットエンジニアリングソリューションズ",
+  "ヴェロシティロボティクスインク",
+  "ラピッドローンチオペレーションズ",
+  "ライジングエッジエキスパティーズ",
+  "ゼニスホールディングスダイナミクス",
+  "ゼニスリソースキングダム",
+  "ゼニスリサーチグループ",
+  "ゼニスメディアリレーションズ",
 ];
 
 const abbreviations = [
-  'SIN',
-  'SWI',
-  'SIF',
-  'SST',
-  'SOP',
-  'SAX',
-  'STR',
-  'SIR',
-  'SGK',
-  'SSQ',
-  'PDA',
-  'VPR',
-  'PLD',
-  'PLK',
-  'PFL',
-  'PUS',
-  'PGO',
-  'LBQ',
-  'LBA',
-  'VLB',
-  'LBG',
-  'LBC',
-  'LBJ',
-  'LBS',
-  'RIS',
-  'RKE',
-  'VRI',
-  'RLO',
-  'REX',
-  'ZHD',
-  'ZRK',
-  'ZRG',
-  'ZMR',
+  "SIN",
+  "SWI",
+  "SIF",
+  "SST",
+  "SOP",
+  "SAX",
+  "STR",
+  "SIR",
+  "SGK",
+  "SSQ",
+  "PDA",
+  "VPR",
+  "PLD",
+  "PLK",
+  "PFL",
+  "PUS",
+  "PGO",
+  "LBQ",
+  "LBA",
+  "VLB",
+  "LBG",
+  "LBC",
+  "LBJ",
+  "LBS",
+  "RIS",
+  "RKE",
+  "VRI",
+  "RLO",
+  "REX",
+  "ZHD",
+  "ZRK",
+  "ZRG",
+  "ZMR",
 ];
 
 const createCompany = (): Promise<Company>[] => {
@@ -145,20 +145,20 @@ const createCompany = (): Promise<Company>[] => {
       name: company,
       abbreviation: abbreviations[idx],
       is_deleted: false,
-      created_id: 'system',
-      modified_id: 'system',
+      created_id: "system",
+      modified_id: "system",
     })
   );
 };
 
 const createJoinStatus = () => {
-  const status = ['在籍', '退職', '入社待ち', '入社取り消し', '休職'];
+  const status = ["在籍", "退職", "入社待ち", "入社取り消し", "休職"];
   return status.map((state: string, idx: number) =>
     HouseStatus.create({
       id: idx,
       label: state,
-      created_id: 'system',
-      modified_id: 'system',
+      created_id: "system",
+      modified_id: "system",
     })
   );
 };
@@ -166,60 +166,59 @@ const createJoinStatus = () => {
 const createTopic = (): Promise<Topic>[] => {
   const topics: TopicCreationAttributes[] = [
     {
-      title: '機能追加のお知らせ',
-      contents:
-        'ユーザー登録機能を追加しました。\nユーザーを追加できる権限はシステム管理者(root)のみです。\n新規ユーザーを発行してほしい方はシステム管理者にお問合せください。',
-      created_id: 'system',
-      modified_id: 'system',
+      title: "新機能リリースのお知らせ",
+      contents: "新しい機能をリリースしました。詳細はこちらをご確認ください。",
+      created_id: "system",
+      modified_id: "system",
     },
     {
-      title: 'メンテナンスのお知らせ',
+      title: "メンテナンスのお知らせ",
       contents:
-        '下記の時間よりメンテナンスを実施致します。\n日時: 12/26(日) 2:00 ~ 4:00\n\nメンテナンス中はサイトへのログインはできなくなりますのでご了承くださいますようお願い致します。',
-      published_date: '2021-12-13',
-      created_id: 'system',
-      modified_id: 'system',
+        "下記の時間よりメンテナンスを実施致します。\n日時: 12/26(日) 2:00 ~ 4:00\n\nメンテナンス中はサイトへのログインはできなくなりますのでご了承くださいますようお願い致します。",
+      published_date: "2021-12-13",
+      created_id: "system",
+      modified_id: "system",
     },
     {
-      title: 'パッチリリース',
+      title: "重要なアップデート情報",
       contents:
-        'パッチ 1.51.3 をリリースしました。\nパッチの詳細はリリースノートよりご確認下さい。',
-      published_date: '2021-10-13',
-      created_id: 'system',
-      modified_id: 'system',
+        "重要なアップデートが行われました。詳細はこちらをご覧ください。",
+      published_date: "2021-10-13",
+      created_id: "system",
+      modified_id: "system",
     },
     {
-      title: 'テストテストテストテスト',
+      title: "テストテストテストテスト",
       contents:
         "てすとコンテンツあいうえおaiueo2134567890-=][\\';/.,,,/.[;;;];\\]\\[-09-8,/'{}|{}|{|:\":>><?>+_+@!#ここにはダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます。\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます\n\n\n\n\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます。",
-      published_date: '2021-11-12',
-      created_id: 'system',
-      modified_id: 'system',
+      published_date: "2021-11-12",
+      created_id: "system",
+      modified_id: "system",
     },
     {
-      title: 'テスト1テストテスト2テスト3',
+      title: "テスト1テストテスト2テスト3",
       contents:
         "てすとコンテンツあいうえおaiueo2134567890-=][\\';/.,,,/.[;;;];\\]\\[-09-8,/'{}|{}|{|:\":>><?>+_+@!#ここにはダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます。\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます\n\n\n\n\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます。",
-      published_date: '1992-2-29',
-      created_id: 'system',
-      modified_id: 'system',
+      published_date: "1992-2-29",
+      created_id: "system",
+      modified_id: "system",
     },
     {
-      title: '削除済み',
+      title: "削除済み",
       contents:
         "てすとコンテンツあいうえおaiueo2134567890-=][\\';/.,,,/.[;;;];\\]\\[-09-8,/'{}|{}|{|:\":>><?>+_+@!#ここにはダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます。\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます\n\n\n\n\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます。",
-      published_date: '1992-2-29',
+      published_date: "1992-2-29",
       is_deleted: true,
-      created_id: 'system',
-      modified_id: 'system',
+      created_id: "system",
+      modified_id: "system",
     },
     {
-      title: 'あああああああああああ',
+      title: "あああああああああああ",
       contents:
         "てすっっっっっっっv３ーr７ーくぅ２r「’２k３r」q２＝ーとコンテンツあいうえおaiueo2134567890-=][\\';/.,,,/.[;;;];\\]\\[-09-8,/'{}|{}|{|:\":>><?>+_+@!#ここにはダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます。\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます\n\n\n\n\nダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されますダミーテキストが挿入されます。",
-      published_date: '2299-1-12',
-      created_id: 'system',
-      modified_id: 'system',
+      published_date: "2299-1-12",
+      created_id: "system",
+      modified_id: "system",
     },
   ];
 
@@ -238,27 +237,27 @@ const createApp = async () => {
   await Promise.all([
     app1.createUser({
       application_id: app1.application_id,
-      username: 'system',
-      password: 'psystem',
+      username: "system",
+      password: "psystem",
       permission_id: 0,
-      created_id: 'system',
-      modified_id: 'system',
+      created_id: "system",
+      modified_id: "system",
     }),
     app1.createUser({
       application_id: app1.application_id,
-      username: 'adm',
-      password: 'padm',
+      username: "adm",
+      password: "padm",
       permission_id: 1,
-      created_id: 'system',
-      modified_id: 'system',
+      created_id: "system",
+      modified_id: "system",
     }),
     app1.createUser({
       application_id: app1.application_id,
-      username: 'user',
-      password: 'puser',
+      username: "user",
+      password: "puser",
       permission_id: 2,
-      created_id: 'system',
-      modified_id: 'system',
+      created_id: "system",
+      modified_id: "system",
     }),
   ]);
 
@@ -283,13 +282,9 @@ const generateEmployee = async (app: App, isDummy = false) => {
     const now = moment();
     const nowYear = now.year();
 
-    // 雇用する最大年齢 56歳
     const maxEmployeeAge = 56;
-    // 雇用する最小年齢 19歳
     const minEmployeeAge = 19;
-    // 19歳以上しか雇わない前提で 19歳の人の誕生年を算出する
     const maxBirthdayYear = nowYear - minEmployeeAge;
-    // 56歳以下しか雇わない前提で 56歳の人の誕生年を算出する
     const minBirthdayYear = nowYear - maxEmployeeAge;
 
     const randomBirthdayYear = generateSpecifyRandom(
@@ -339,10 +334,9 @@ const generateEmployee = async (app: App, isDummy = false) => {
 
     const tempEnterMonth = (() => {
       if (randomEnterYear === nowYear) {
-        // NOTE: 今年の今の月を超えた入社にならないように
         return generateSpecifyRandom(
           1,
-          moment().add(generateSpecifyRandom(1, 2), 'months').month()
+          moment().add(generateSpecifyRandom(1, 2), "months").month()
         );
       }
       return generateSpecifyRandom(1, 12);
@@ -361,10 +355,9 @@ const generateEmployee = async (app: App, isDummy = false) => {
     // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     // 　◆ generate Retire Date
     // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    const diffNowEnterDateDay = calcDiff(enterDate, null, 'days');
+    const diffNowEnterDateDay = calcDiff(enterDate, null, "days");
 
     const minRetireDay = 40;
-    // 40日以上で退職する（３日で退職とかはいないこととする）
     const randomRetireDay = generateSpecifyRandom(
       diffNowEnterDateDay < minRetireDay
         ? generateSpecifyRandom(1, diffNowEnterDateDay)
@@ -372,17 +365,16 @@ const generateEmployee = async (app: App, isDummy = false) => {
       diffNowEnterDateDay
     );
 
-    // YYYY-MM-dd 48%の確率で退職
     const retireDate =
       !enterDateIsOverNow && generateSpecifyRandom(1, 100) <= 48
-        ? moment(enterDate).add(randomRetireDay, 'days').format('YYYY-MM-DD')
+        ? moment(enterDate).add(randomRetireDay, "days").format("YYYY-MM-DD")
         : null;
 
     // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     // 　◆ generate Enrollment
     // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
     const enrollment = enterDateIsOverNow
-      ? { years: '0年', months: '0', days: '0' }
+      ? { years: "0年", months: "0", days: "0" }
       : calcEnrollment(enterDate, retireDate);
 
     // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -447,15 +439,15 @@ const generateEmployee = async (app: App, isDummy = false) => {
             composite_id: `${count}-${app.application_id}`,
             employee_id: count,
             application_id: app.application_id,
-            first_name: 'セキュア',
-            last_name: `${sex === 0 ? '太郎' : '花子'}${i}`,
-            first_name_hiragana: 'せきゅあ',
-            last_name_hiragana: `${sex === 0 ? 'たろう' : 'はなこ'}${i}`,
+            first_name: "テクノ",
+            last_name: `${sex === 0 ? "鈴木" : "大介"}${i}`,
+            first_name_hiragana: "てくの",
+            last_name_hiragana: `${sex === 0 ? "すずき" : "だいすけ"}${i}`,
             company_id: randomCompanyId,
             birthday: randomBirthday,
             sex,
             age,
-            mail: `sample${i}@secure-i.jp`,
+            mail: `sample${i}@world.jp`,
             telephone: randomTelephoneNumber,
             enter_date: enterDate,
             retire_date: retireDate,
@@ -465,8 +457,8 @@ const generateEmployee = async (app: App, isDummy = false) => {
             enrollment_month: enrollment.months,
             enrollment_day: enrollment.days,
             is_deleted,
-            created_id: 'system',
-            modified_id: 'system',
+            created_id: "system",
+            modified_id: "system",
           },
           { transaction }
         );
@@ -476,13 +468,13 @@ const generateEmployee = async (app: App, isDummy = false) => {
             composite_id: `${count}-${app.application_id}`,
             employee_id: count,
             application_id: app.application_id,
-            business_manager: `管理花子${i}`,
+            business_manager: `みきたに${i}`,
             department_id: departmentId,
             commissioning_status_id: commissioningStatusId,
             house_status_id: houseStatusId,
             is_deleted,
-            created_id: 'system',
-            modified_id: 'system',
+            created_id: "system",
+            modified_id: "system",
           },
           { transaction }
         );
@@ -498,10 +490,10 @@ const generateEmployee = async (app: App, isDummy = false) => {
             composite_id: `${count}-${app.application_id}`,
             employee_id: count,
             application_id: app.application_id,
-            first_name: 'セキュア',
-            last_name: `${sex === 0 ? '太郎' : '花子'}${i}`,
-            first_name_hiragana: 'せきゅあ',
-            last_name_hiragana: `${sex === 0 ? 'たろう' : 'はなこ'}${i}`,
+            first_name: "テクノ",
+            last_name: `${sex === 0 ? "鈴木" : "大介"}${i}`,
+            first_name_hiragana: "てくの",
+            last_name_hiragana: `${sex === 0 ? "すずき" : "だいすけ"}${i}`,
             company_id: randomCompanyId,
             birthday: randomBirthday,
             sex,
@@ -516,8 +508,8 @@ const generateEmployee = async (app: App, isDummy = false) => {
             enrollment_month: enrollment.months,
             enrollment_day: enrollment.days,
             is_deleted,
-            created_id: 'system',
-            modified_id: 'system',
+            created_id: "system",
+            modified_id: "system",
           },
           { transaction }
         );
@@ -527,13 +519,13 @@ const generateEmployee = async (app: App, isDummy = false) => {
             composite_id: `${count}-${app.application_id}`,
             employee_id: count,
             application_id: app.application_id,
-            business_manager: `管理花子${i}`,
+            business_manager: `管理大介${i}`,
             department_id: departmentId,
             commissioning_status_id: commissioningStatusId,
             house_status_id: houseStatusId,
             is_deleted,
-            created_id: 'system',
-            modified_id: 'system',
+            created_id: "system",
+            modified_id: "system",
           },
           { transaction }
         );

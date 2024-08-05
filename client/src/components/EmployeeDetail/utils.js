@@ -2,7 +2,6 @@ import { apiGetCall } from "../../utils/apiUtil";
 
 // Utility function to filter employee data
 export const filterEmployeeData = (data) => {
-  console.log(data.birthday);
   return {
     lastName: data.last_name,
     firstName: data.first_name,
